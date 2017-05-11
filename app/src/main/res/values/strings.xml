@@ -263,4 +263,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA</sm
 Get the source code of the app here on <a href=https://github.com/demantz/RFAnalyzer>GitHub</a>!
 ]]></string>
 
+    <string name="pref_rtlsdr_directSamp">pref_rtlsdr_directSamp</string>
+    <string name="pref_rtlsdr_directSamp_title">Direct Sampling</string>
+    <string name="pref_rtlsdr_directSamp_default">0</string>
+    <string name="pref_rtlsdr_directSamp_summ">Direct Sampling mode is set to: %s</string>
+
 </resources>

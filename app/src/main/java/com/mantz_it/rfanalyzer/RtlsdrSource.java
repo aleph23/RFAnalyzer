@@ -54,8 +54,9 @@ public class RtlsdrSource implements IQSourceInterface {
 	public static final int RTL_TCP_COMMAND_SET_FREQ_CORR 	= 0x05;
 	public static final int RTL_TCP_COMMAND_SET_IFGAIN 		= 0x06;
 	public static final int RTL_TCP_COMMAND_SET_AGC_MODE 	= 0x08;
+	public static final int RTL_TCP_COMMAND_SET_DIRECT_SAMPLING_MODE 	= 0x09;
 	public final String[] COMMAND_NAME = {"invalid", "SET_FREQUENY", "SET_SAMPLERATE", "SET_GAIN_MODE",
-			"SET_GAIN", "SET_FREQ_CORR", "SET_IFGAIN", "SET_TEST_MODE", "SET_ADC_MODE"};
+			"SET_GAIN", "SET_FREQ_CORR", "SET_IFGAIN", "SET_TEST_MODE", "SET_ADC_MODE", "SET_DIRECT_SAMPLING_MODE"};
 
 	private ReceiverThread receiverThread = null;
 	private CommandThread commandThread = null;
@@ -87,7 +88,7 @@ public class RtlsdrSource implements IQSourceInterface {
 												22000000l,	// FC0012
 												22000000l,	// FC0013
 												146000000l,	// FC2580
-												24000000l,	// R820T
+												1l,	// R820T
 												24000000l};	// R828D
 	public static final long[] MAX_FREQUENCY = { 0l,			// invalid
 												3000000000l,	// E4000		actual max freq: 2200000000l
@@ -381,6 +382,15 @@ public class RtlsdrSource implements IQSourceInterface {
 	public void setFrequencyOffset(int frequencyShift) {
 		this.frequencyOffset = frequencyShift;
 		this.iqConverter.setFrequency(frequency + frequencyShift);
+	}
+
+	public boolean setDirectSampling(int value) {
+		Log.e(LOGTAG,"Direct Sampling: "+value);
+		if(value < 0 || value > 2)
+			return false;
+		else if(commandThread != null)
+			return commandThread.executeCommand(commandToByteArray(RTL_TCP_COMMAND_SET_DIRECT_SAMPLING_MODE,value));
+        else return false;
 	}
 
 	@Override

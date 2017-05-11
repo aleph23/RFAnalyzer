@@ -884,6 +884,11 @@ public class MainActivity extends AppCompatActivity implements IQSourceInterface
 			return;	// we have to wait for the source to become ready... onIQSourceReady() will call startAnalyzer() again...
 		}
 
+		// Set direct sampling mode according to preference
+		if(Integer.valueOf(preferences.getString(getString(R.string.pref_sourceType), "1")) == RTLSDR_SOURCE) {
+			((RtlsdrSource) source).setDirectSampling(Integer.valueOf(preferences.getString(getString(R.string.pref_rtlsdr_directSamp), "0")));
+		}
+
 		// Create a new instance of Scheduler and Processing Loop:
 		scheduler = new Scheduler(fftSize, source);
 		analyzerProcessingLoop = new AnalyzerProcessingLoop(

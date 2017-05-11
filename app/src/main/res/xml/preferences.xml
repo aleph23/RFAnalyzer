@@ -104,6 +104,13 @@
                     android:dialogTitle="@string/pref_rtlsdr_frequencyOffset_title"
                     android:defaultValue="0"
                     android:inputType="number|numberSigned"/>
+                <ListPreference
+                    android:key="@string/pref_rtlsdr_directSamp"
+                    android:title="@string/pref_rtlsdr_directSamp_title"
+                    android:dialogTitle="@string/pref_rtlsdr_directSamp_title"
+                    android:entries="@array/pref_rtlsdr_directSamp_entries"
+                    android:entryValues="@array/pref_rtlsdr_directSamp_values"
+                    android:defaultValue="@string/pref_rtlsdr_directSamp_default" />
             </PreferenceCategory>
         </PreferenceScreen>
         <ListPreference

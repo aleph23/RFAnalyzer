@@ -185,4 +185,14 @@
         <item>KHz</item>
         <item>Hz</item>
     </string-array>
+    <string-array name="pref_rtlsdr_directSamp_entries">
+        <item>Off</item>
+        <item>I</item>
+        <item>Q</item>
+    </string-array>
+    <string-array name="pref_rtlsdr_directSamp_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
 </resources>

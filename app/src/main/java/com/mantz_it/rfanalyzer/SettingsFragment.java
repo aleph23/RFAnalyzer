@@ -178,6 +178,10 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 		ListPreference listPref = (ListPreference) findPreference(getString(R.string.pref_sourceType));
 		listPref.setSummary(getString(R.string.pref_sourceType_summ, listPref.getEntry()));
 
+		// Direct Sampling
+		listPref = (ListPreference) findPreference(getString(R.string.pref_rtlsdr_directSamp));
+		listPref.setSummary(getString(R.string.pref_rtlsdr_directSamp_summ, listPref.getEntry()));
+
 		// FileSource Frequency
 		EditTextPreference editTextPref = (EditTextPreference) findPreference(getString(R.string.pref_filesource_frequency));
 		if(editTextPref.getText().length() == 0)
