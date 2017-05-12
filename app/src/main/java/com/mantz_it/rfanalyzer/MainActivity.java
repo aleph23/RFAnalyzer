@@ -431,6 +431,8 @@ public class MainActivity extends AppCompatActivity implements IQSourceInterface
 			SharedPreferences.Editor edit = preferences.edit();
 			edit.putLong(getString(R.string.pref_frequency), source.getFrequency());
 			edit.putInt(getString(R.string.pref_sampleRate), source.getSampleRate());
+			edit.putInt(getString(R.string.pref_virtualSampleRate),analyzerSurface.getVirtualSampleRate());
+			edit.putLong(getString(R.string.pref_virtualFrequency),analyzerSurface.getVirtualFrequency());
 			edit.commit();
 		}
 	}
@@ -889,6 +891,10 @@ public class MainActivity extends AppCompatActivity implements IQSourceInterface
 		if(Integer.valueOf(preferences.getString(getString(R.string.pref_sourceType), "1")) == RTLSDR_SOURCE) {
 			((RtlsdrSource) source).setDirectSampling(Integer.valueOf(preferences.getString(getString(R.string.pref_rtlsdr_directSamp), "0")));
 		}
+
+		source.setSampleRate(source.getNextHigherOptimalSampleRate(preferences.getInt(getString(R.string.pref_virtualSampleRate),1000000)));
+		analyzerSurface.setVirtualSampleRate(preferences.getInt(getString(R.string.pref_virtualSampleRate),1000000));
+		analyzerSurface.setVirtualFrequency(preferences.getLong(getString(R.string.pref_virtualFrequency),97000000));
 
 		// Create a new instance of Scheduler and Processing Loop:
 		scheduler = new Scheduler(fftSize, source);
