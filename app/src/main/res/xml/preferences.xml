@@ -202,6 +202,13 @@
             android:summaryOn="@string/pref_relativeFrequencies_summ_on"
             android:summaryOff="@string/pref_relativeFrequencies_summ_off"
             android:defaultValue="false" />
+        <ListPreference
+            android:key="@string/pref_surface_unit"
+            android:title="@string/pref_surface_unit_title"
+            android:dialogTitle="@string/pref_surface_unit_title"
+            android:entries="@array/pref_surface_unit_entries"
+            android:entryValues="@array/pref_surface_unit_values"
+            android:defaultValue="@string/pref_surface_unit_default" />
     </PreferenceCategory>
     <PreferenceScreen
         android:key="@string/pref_advancedSettings"

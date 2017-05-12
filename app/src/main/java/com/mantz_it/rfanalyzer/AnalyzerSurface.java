@@ -107,6 +107,7 @@ public class AnalyzerSurface extends SurfaceView implements SurfaceHolder.Callba
 
 	private boolean displayRelativeFrequencies = false; // indicates whether frequencies on the horizontal axis should be
 														// relative to the center frequency (true) or absolute (false)
+	private double frequencyDisplayUnit = 1000000;	// Value to divide the frequency by before display
 
 	private boolean recordingEnabled = false;		// indicates whether recording is currently running or not
 
@@ -402,6 +403,13 @@ public class AnalyzerSurface extends SurfaceView implements SurfaceHolder.Callba
 	 */
 	public void setDisplayRelativeFrequencies(boolean displayRelativeFrequencies) {
 		this.displayRelativeFrequencies = displayRelativeFrequencies;
+	}
+
+	/**
+	 * @param unit factor by which to divide the frequency before display
+	 */
+	public void setDisplayFrequencyUnit(int unit) {
+		this.frequencyDisplayUnit = (double) unit;
 	}
 
 	/**
@@ -1213,8 +1221,7 @@ public class AnalyzerSurface extends SurfaceView implements SurfaceHolder.Callba
 	 */
 	private void drawFrequencyGrid(Canvas c) {
 		String textStr;
-		double MHZ = 1000000F;
-		double tickFreqMHz;
+		double tickFreqScaled;
 		float lastTextEndPos = -99999;	// will indicate the horizontal pixel pos where the last text ended
 		float textPos;
 
@@ -1253,12 +1260,12 @@ public class AnalyzerSurface extends SurfaceView implements SurfaceHolder.Callba
 				// Major Tick (10x <tickSize> KHz)
 				tickHeight = (float) (getGridSize() / 2.0);
 
-				// Draw Frequency Text (always in MHz)
-				tickFreqMHz = tickFreq/MHZ;
-				if(tickFreqMHz == (int) tickFreqMHz)
-					textStr = String.format("%d", (int)tickFreqMHz);
+				// Draw Frequency Text (according to settings)
+				tickFreqScaled = tickFreq/frequencyDisplayUnit;
+				if(tickFreqScaled == (int) tickFreqScaled)
+					textStr = String.format("%d", (int)tickFreqScaled);
 				else
-					textStr = String.format("%s", tickFreqMHz);
+					textStr = String.format("%s", tickFreqScaled);
 				textPaint.getTextBounds(textStr, 0, textStr.length(), bounds);
 				textPos = tickPos - bounds.width()/2;
 
@@ -1272,11 +1279,11 @@ public class AnalyzerSurface extends SurfaceView implements SurfaceHolder.Callba
 				tickHeight = (float) (getGridSize() / 3.0);
 
 				// Draw Frequency Text (always in MHz)...
-				tickFreqMHz = tickFreq / MHZ;
-				if (tickFreqMHz == (int) tickFreqMHz)
-					textStr = String.format("%d", (int) tickFreqMHz);
+				tickFreqScaled = tickFreq / frequencyDisplayUnit;
+				if (tickFreqScaled == (int) tickFreqScaled)
+					textStr = String.format("%d", (int) tickFreqScaled);
 				else
-					textStr = String.format("%s", tickFreqMHz);
+					textStr = String.format("%s", tickFreqScaled);
 				textSmallPaint.getTextBounds(textStr, 0, textStr.length(), bounds);
 				textPos = tickPos - bounds.width()/2;
 
@@ -1402,14 +1409,14 @@ public class AnalyzerSurface extends SurfaceView implements SurfaceHolder.Callba
 			yPos += bounds.height() * 1.1f;
 
 			// Frequency
-			text = String.format("tuned to %4.6f MHz", source.getFrequency()/1000000f);
+			text = String.format(frequencyDisplayUnit == 1000000 ? "tuned to %4.6f MHz" : "tuned to %5.3f KHz", source.getFrequency()/frequencyDisplayUnit);
 			textSmallPaint.getTextBounds(text, 0, text.length(), bounds);
 			c.drawText(text, rightBorder - bounds.width(), yPos + bounds.height(), textSmallPaint);
 			yPos += bounds.height() * 1.1f;
 
 			// Center Frequency
 			if(displayRelativeFrequencies) {
-				text = String.format("centered at %4.6f MHz", virtualFrequency / 1000000f);
+				text = String.format(frequencyDisplayUnit == 1000000 ? "centered at %4.6f MHz" : "centered %5.3f KHz", virtualFrequency / frequencyDisplayUnit);
 				textSmallPaint.getTextBounds(text, 0, text.length(), bounds);
 				c.drawText(text, rightBorder - bounds.width(), yPos + bounds.height(), textSmallPaint);
 				yPos += bounds.height() * 1.1f;
@@ -1417,14 +1424,14 @@ public class AnalyzerSurface extends SurfaceView implements SurfaceHolder.Callba
 
 			// HackRF specific stuff:
 			if(source instanceof HackrfSource) {
-				text = String.format("offset=%4.6f MHz", ((HackrfSource)source).getFrequencyOffset()/1000000f);
+				text = String.format(frequencyDisplayUnit == 1000000 ? "offset=%4.6f MHz" : "offset=%5.3f KHz", ((HackrfSource)source).getFrequencyOffset()/frequencyDisplayUnit);
 				textSmallPaint.getTextBounds(text, 0, text.length(), bounds);
 				c.drawText(text, rightBorder - bounds.width(), yPos + bounds.height(), textSmallPaint);
 				yPos += bounds.height() * 1.1f;
 			}
 			// RTLSDR specific stuff:
 			if(source instanceof RtlsdrSource) {
-				text = String.format("offset=%4.6f MHz", ((RtlsdrSource)source).getFrequencyOffset()/1000000f);
+				text = String.format(frequencyDisplayUnit == 1000000 ? "offset=%4.6f MHz" : "offset=%5.3f KHz", ((RtlsdrSource)source).getFrequencyOffset()/frequencyDisplayUnit);
 				textSmallPaint.getTextBounds(text, 0, text.length(), bounds);
 				c.drawText(text, rightBorder - bounds.width(), yPos + bounds.height(), textSmallPaint);
 				yPos += bounds.height() * 1.1f;
@@ -1438,7 +1445,7 @@ public class AnalyzerSurface extends SurfaceView implements SurfaceHolder.Callba
 
 		// Draw the channel frequency if demodulation is enabled:
 		if(demodulationEnabled) {
-			text = String.format("demod at %4.6f MHz", channelFrequency/1000000f);
+			text = String.format(frequencyDisplayUnit == 1000000 ? "demod at %4.6f MHz" : "demod at %5.3f KHz", channelFrequency/frequencyDisplayUnit);
 			textSmallPaint.getTextBounds(text, 0, text.length(), bounds);
 			c.drawText(text, rightBorder - bounds.width(), yPos + bounds.height(), textSmallPaint);
 

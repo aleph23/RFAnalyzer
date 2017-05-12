@@ -195,4 +195,12 @@
         <item>1</item>
         <item>2</item>
     </string-array>
+    <string-array name="pref_surface_unit_entries">
+        <item>KHz</item>
+        <item>MHz</item>
+    </string-array>
+    <string-array name="pref_surface_unit_values">
+        <item>1000</item>
+        <item>1000000</item>
+    </string-array>
 </resources>

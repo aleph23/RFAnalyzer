@@ -267,5 +267,10 @@ Get the source code of the app here on <a href=https://github.com/demantz/RFAnal
     <string name="pref_rtlsdr_directSamp_title">Direct Sampling</string>
     <string name="pref_rtlsdr_directSamp_default">0</string>
     <string name="pref_rtlsdr_directSamp_summ">Direct Sampling mode is set to: %s</string>
+    <string name="pref_surface_unit">pref_surface_unit</string>
+    <string name="pref_surface_unit_title">Frequency Unit</string>
+    <string name="pref_surface_unit_default">1000000</string>
+    <string name="pref_surface_unit_summ">Display frequency in: %s</string>
+
 
 </resources>

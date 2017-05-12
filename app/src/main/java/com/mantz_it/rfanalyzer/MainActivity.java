@@ -621,6 +621,7 @@ public class MainActivity extends AppCompatActivity implements IQSourceInterface
 			analyzerSurface.setFftRatio(Float.valueOf(preferences.getString(getString(R.string.pref_spectrumWaterfallRatio), "0.5")));
 			analyzerSurface.setFontSize(Integer.valueOf(preferences.getString(getString(R.string.pref_fontSize),"2")));
 			analyzerSurface.setShowDebugInformation(preferences.getBoolean(getString(R.string.pref_showDebugInformation), false));
+			analyzerSurface.setDisplayFrequencyUnit(Integer.valueOf(preferences.getString(getString(R.string.pref_surface_unit),"1000000")));
 		}
 
 		// Screen Orientation:
