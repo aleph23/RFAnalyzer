@@ -604,6 +604,7 @@ public class MainActivity extends AppCompatActivity implements IQSourceInterface
 							((RtlsdrSource) source).setFrequencyCorrection(frequencyCorrection);
 						if(((RtlsdrSource)source).getFrequencyOffset() != frequencyOffset)
 							((RtlsdrSource)source).setFrequencyOffset(frequencyOffset);
+						((RtlsdrSource) source).setDirectSampling(Integer.valueOf(preferences.getString(getString(R.string.pref_rtlsdr_directSamp), "0")));
 					}
 					break;
 				default:
